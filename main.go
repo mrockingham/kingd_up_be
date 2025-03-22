@@ -7,6 +7,7 @@ import (
 
 	"kingdup/db"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
@@ -22,6 +23,9 @@ func main() {
 
 	// Set up Gin
 	router := gin.Default()
+
+	// Enable CORS (add this)
+	router.Use(cors.Default())
 
 	// Test route
 	router.GET("/ping", func(c *gin.Context) {
