@@ -25,10 +25,6 @@ func init() {
 }
 
 func main() {
-	// Load .env
-	if err := godotenv.Load(); err != nil {
-		log.Fatal("❌ Error loading .env file")
-	}
 
 	// Initialize DB
 	db.Init()
