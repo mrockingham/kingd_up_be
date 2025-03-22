@@ -12,6 +12,16 @@ import (
 	"github.com/joho/godotenv"
 )
 
+func init() {
+	// Only load .env in development
+	if os.Getenv("ENV") != "production" {
+		err := godotenv.Load()
+		if err != nil {
+			log.Println("⚠️ Could not load .env file (expected in development only)")
+		}
+	}
+}
+
 func main() {
 	// Load .env
 	if err := godotenv.Load(); err != nil {
