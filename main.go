@@ -13,11 +13,13 @@ import (
 )
 
 func init() {
-	// Only load .env in development
-	if os.Getenv("ENV") != "production" {
-		err := godotenv.Load()
-		if err != nil {
-			log.Println("⚠️ Could not load .env file (expected in development only)")
+	// Only load .env file if running locally
+	env := os.Getenv("ENV")
+	if env == "" || env == "development" {
+		if err := godotenv.Load(); err != nil {
+			log.Println("⚠️ Could not load .env file (expected in local dev)")
+		} else {
+			log.Println("✅ .env loaded (local dev)")
 		}
 	}
 }
