@@ -31,6 +31,7 @@ type PrintfulVariant struct {
 	SKU         string `json:"sku"`
 	RetailPrice string `json:"retail_price"`
 	Files       []struct {
+		Type       string `json:"type"`
 		PreviewURL string `json:"preview_url"`
 	} `json:"files"`
 }
@@ -138,7 +139,7 @@ func SyncProductsFromPrintful() error {
 		for _, v := range productResp.Result.SyncVariants {
 			thumb := ""
 			for _, file := range v.Files {
-				if file.PreviewURL != "" {
+				if file.Type == "preview" && file.PreviewURL != "" {
 					thumb = file.PreviewURL
 					break
 				}
