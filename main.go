@@ -6,7 +6,6 @@ import (
 	"log"
 	"os"
 
-	"github.com/golang-migrate/migrate/v4"
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 	"github.com/joho/godotenv"
@@ -25,8 +24,6 @@ func init() {
 }
 
 func main() {
-	// Run DB migrations before app starts
-	runMigrations()
 
 	// Init DB
 	db.Init()
@@ -44,21 +41,4 @@ func main() {
 	if err := router.Run(":" + port); err != nil {
 		log.Fatalf("❌ Failed to start server: %v", err)
 	}
-}
-
-func runMigrations() {
-	m, err := migrate.New(
-		"file://migrations",
-		os.Getenv("DATABASE_URL"),
-	)
-	if err != nil {
-		log.Fatalf("❌ Failed to initialize migrations: %v", err)
-	}
-
-	err = m.Up()
-	if err != nil && err != migrate.ErrNoChange {
-		log.Fatalf("❌ Migration failed: %v", err)
-	}
-
-	log.Println("✅ Migrations ran successfully (or no changes)")
 }
