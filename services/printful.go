@@ -137,8 +137,11 @@ func SyncProductsFromPrintful() error {
 		// Upsert variants
 		for _, v := range productResp.Result.SyncVariants {
 			thumb := ""
-			if len(v.Files) > 0 {
-				thumb = v.Files[0].PreviewURL
+			for _, file := range v.Files {
+				if file.PreviewURL != "" {
+					thumb = file.PreviewURL
+					break
+				}
 			}
 
 			variant := db.Variant{
