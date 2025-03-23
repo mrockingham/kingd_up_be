@@ -4,10 +4,13 @@ import "gorm.io/gorm"
 
 type Variant struct {
 	gorm.Model
-	PrintfulID   int64 `gorm:"uniqueIndex"`
-	ProductID    uint  // foreign key to Product
-	Name         string
-	SKU          string
-	RetailPrice  string
-	ThumbnailURL string
+	PrintfulID         int64 `gorm:"uniqueIndex"`
+	ProductID          uint  // foreign key to Product
+	Name               string
+	SKU                string
+	RetailPrice        string
+	ThumbnailURL       string
+	Size               string
+	Color              string
+	AvailabilityStatus string
 }

@@ -26,11 +26,14 @@ type SyncProduct struct {
 }
 
 type PrintfulVariant struct {
-	ID          int64  `json:"id"`
-	Name        string `json:"name"`
-	SKU         string `json:"sku"`
-	RetailPrice string `json:"retail_price"`
-	Files       []struct {
+	ID                 int64  `json:"id"`
+	Name               string `json:"name"`
+	SKU                string `json:"sku"`
+	RetailPrice        string `json:"retail_price"`
+	Size               string `json:"size"`
+	Color              string `json:"color"`
+	AvailabilityStatus string `json:"availability_status"`
+	Files              []struct {
 		Type       string `json:"type"`
 		PreviewURL string `json:"preview_url"`
 	} `json:"files"`
@@ -146,14 +149,16 @@ func SyncProductsFromPrintful() error {
 			}
 
 			variant := db.Variant{
-				PrintfulID:   v.ID,
-				ProductID:    product.ID,
-				Name:         v.Name,
-				SKU:          v.SKU,
-				RetailPrice:  v.RetailPrice,
-				ThumbnailURL: thumb,
+				PrintfulID:         v.ID,
+				ProductID:          product.ID,
+				Name:               v.Name,
+				SKU:                v.SKU,
+				RetailPrice:        v.RetailPrice,
+				ThumbnailURL:       thumb,
+				Size:               v.Size,
+				Color:              v.Color,
+				AvailabilityStatus: v.AvailabilityStatus,
 			}
-
 			err := db.DB.
 				Where("printful_id = ?", v.ID).
 				Assign(variant).
