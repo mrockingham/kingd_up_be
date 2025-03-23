@@ -6,8 +6,7 @@ import (
 	"log"
 	"os"
 
-	_ "github.com/golang-migrate/migrate/v4/database/postgres"
-	_ "github.com/golang-migrate/migrate/v4/source/file"
+	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
 
@@ -24,12 +23,12 @@ func init() {
 }
 
 func main() {
-
+	r := gin.Default()
 	// Init DB
 	db.Init()
 
 	// Register routes
-	router := routes.RegisterRoutes()
+	router := routes.RegisterRoutes(r, db.DB)
 
 	// Start server
 	port := os.Getenv("PORT")

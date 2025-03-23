@@ -2,13 +2,16 @@ package routes
 
 import (
 	"kingdup/api"
+	order "kingdup/handlers/order" // Use an alias
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
-func RegisterRoutes() *gin.Engine {
-	router := gin.Default()
+func RegisterRoutes(r *gin.Engine, db *gorm.DB) *gin.Engine {
+
+	router := r
 
 	// Enable CORS
 	router.Use(cors.Default())
@@ -25,7 +28,13 @@ func RegisterRoutes() *gin.Engine {
 	router.GET("/api/products", api.GetProductsHandler)
 
 	// Get product by ID
-	router.GET("/api/products/:id", api.GetProductsHandler)
+	router.GET("/api/products/:id", api.GetProductHandler)
+
+	orderGroup := router.Group("/orders")
+	{
+		orderGroup.POST("/", order.CreateOrderHandler(db))
+		// Add more as needed
+	}
 
 	return router
 }
