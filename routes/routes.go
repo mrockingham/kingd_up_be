@@ -2,7 +2,11 @@ package routes
 
 import (
 	"kingdup/api"
+	"kingdup/handlers/auth"
 	order "kingdup/handlers/order" // Use an alias
+
+	myorder "kingdup/handlers/order"
+	"kingdup/middleware"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -33,7 +37,21 @@ func RegisterRoutes(r *gin.Engine, db *gorm.DB) *gin.Engine {
 	orderGroup := router.Group("/orders")
 	{
 		orderGroup.POST("/", order.CreateOrderHandler(db))
+		orderGroup.GET("/me", middleware.JWTMiddleware(), myorder.GetUserOrdersHandler(db))
+		orderGroup.GET("/:id", middleware.JWTMiddleware(), order.GetOrderByIDHandler(db))
+
 		// Add more as needed
+	}
+
+	authGroup := router.Group("/auth")
+	{
+		authGroup.POST("/register", auth.RegisterHandler(db))
+		authGroup.POST("/login", auth.LoginHandler(db))
+	}
+	userGroup := router.Group("/user")
+	userGroup.Use(middleware.JWTMiddleware())
+	{
+		userGroup.GET("/me", auth.MeHandler(db))
 	}
 
 	return router

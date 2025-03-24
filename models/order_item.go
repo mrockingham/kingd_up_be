@@ -1,13 +1,12 @@
 package models
 
 type OrderItem struct {
-	ID          int     `json:"id" db:"id"`
-	OrderID     int     `json:"order_id" db:"order_id"`
-	VariantID   int64   `json:"variant_id" db:"variant_id"`
-	ProductName string  `json:"product_name" db:"product_name"`
-	Size        string  `json:"size" db:"size"`
-	Color       string  `json:"color" db:"color"`
-	Quantity    int     `json:"quantity" db:"quantity"`
-	PriceEach   float64 `json:"price_each" db:"price_each"`
-	TotalPrice  float64 `json:"total_price" db:"total_price"`
+	ID          int     `json:"id" gorm:"column:id"`
+	OrderID     int     `json:"order_id" gorm:"column:order_id"`
+	VariantID   int64   `json:"variant_id" gorm:"column:variant_id"`
+	ProductName string  `json:"product_name" gorm:"column:product_name"`
+	Size        string  `json:"size" gorm:"column:size"`
+	Color       string  `json:"color" gorm:"column:color"`
+	Quantity    int     `json:"quantity" gorm:"column:quantity"`
+	PriceEach   float64 `json:"price_each" gorm:"column:price_each"`
 }
