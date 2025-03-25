@@ -1,0 +1,7 @@
+DROP TABLE IF EXISTS order_items;
+DROP TABLE IF EXISTS orders;
+DROP TABLE IF EXISTS variants;
+DROP TABLE IF EXISTS products;
+DROP TABLE IF EXISTS shipping_addresses;
+DROP TABLE IF EXISTS guests;
+DROP TABLE IF EXISTS users;
