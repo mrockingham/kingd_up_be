@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/golang-migrate/migrate"
 	"github.com/joho/godotenv"
 )
 
@@ -22,10 +23,32 @@ func init() {
 	}
 }
 
+func runMigrations() {
+	m, err := migrate.New(
+		"file://migrations", // relative path to your migrations
+		os.Getenv("DATABASE_URL"),
+	)
+	if err != nil {
+		log.Printf("❌ Migration setup failed: %v\n", err)
+		return
+	}
+
+	if err := m.Up(); err != nil && err != migrate.ErrNoChange {
+		log.Printf("❌ Migration failed: %v\n", err)
+		return
+	}
+
+	log.Println("✅ Migrations ran successfully")
+}
+
 func main() {
+
+	db.Init()
+
+	runMigrations()
+
 	r := gin.Default()
 	// Init DB
-	db.Init()
 
 	// Register routes
 	router := routes.RegisterRoutes(r, db.DB)
