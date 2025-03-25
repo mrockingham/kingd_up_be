@@ -35,12 +35,10 @@ func runMigrations() {
 		log.Printf("❌ Migration setup failed: %v\n", err)
 		return
 	}
-
 	if err := m.Up(); err != nil && err != migrate.ErrNoChange {
 		log.Printf("❌ Migration failed: %v\n", err)
 		return
 	}
-
 	log.Println("✅ Migrations ran successfully")
 }
 
