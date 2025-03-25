@@ -7,10 +7,11 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
-	"github.com/golang-migrate/migrate"
+	"github.com/joho/godotenv"
+
+	"github.com/golang-migrate/migrate/v4" // ✅ CORRECT VERSIONED PATH
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
-	"github.com/joho/godotenv"
 )
 
 func init() {
