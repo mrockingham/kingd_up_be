@@ -7,6 +7,7 @@ import (
 
 	myorder "kingdup/handlers/order"
 	"kingdup/middleware"
+	"time"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -18,7 +19,14 @@ func RegisterRoutes(r *gin.Engine, db *gorm.DB) *gin.Engine {
 	router := r
 
 	// Enable CORS
-	router.Use(cors.Default())
+	router.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"http://localhost:3000", "https://kingdup.com"}, // add prod URL too
+		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
+	}))
 
 	// Test
 	router.GET("/ping", func(c *gin.Context) {
