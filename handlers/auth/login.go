@@ -66,7 +66,5 @@ func LoginHandler(db *gorm.DB) gin.HandlerFunc {
 
 		log.Println("✅ Password match successful")
 
-		// TODO: generate JWT token here
-		c.JSON(http.StatusOK, gin.H{"message": "Login successful!"})
 	}
 }
