@@ -26,7 +26,7 @@ func RegisterRoutes(r *gin.Engine, db *gorm.DB) *gin.Engine {
 
 	// Enable CORS
 	router.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://localhost:3000", "https://kingdup.com"}, // add prod URL too
+		AllowOrigins:     []string{"http://localhost:3000", "https://kingdup.com", "https://www.kingdup.com"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
 		ExposeHeaders:    []string{"Content-Length"},
