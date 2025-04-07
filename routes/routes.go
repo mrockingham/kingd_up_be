@@ -16,8 +16,13 @@ import (
 )
 
 func RegisterRoutes(r *gin.Engine, db *gorm.DB) *gin.Engine {
-
 	router := r
+
+	// Unwrap *sql.DB from GORM
+	sqlDB, err := db.DB()
+	if err != nil {
+		panic("❌ Failed to get raw DB from GORM: " + err.Error())
+	}
 
 	// Enable CORS
 	router.Use(cors.New(cors.Config{
@@ -65,7 +70,7 @@ func RegisterRoutes(r *gin.Engine, db *gorm.DB) *gin.Engine {
 
 	paymentGroup := router.Group("/payment")
 	{
-		paymentGroup.POST("/checkout", payment.CreateCheckoutHandler())
+		paymentGroup.POST("/checkout", payment.CreateCheckoutHandler(sqlDB))
 	}
 
 	return router

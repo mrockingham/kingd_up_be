@@ -80,3 +80,21 @@ func CreateOrderWithItems(ctx context.Context, db *sql.DB, input OrderInput) (in
 
 	return orderID, nil
 }
+
+func SaveGuestOrderFromCheckout(ctx context.Context, db *sql.DB, items []OrderItemInput, guestEmail string) (int64, error) {
+	total := 0.0
+	for _, item := range items {
+		total += item.PriceEach * float64(item.Quantity)
+	}
+
+	order := OrderInput{
+		UserID:          nil,
+		GuestEmail:      &guestEmail,
+		Status:          "pending",
+		TotalAmount:     total,
+		ShippingAddress: "", // You can wire this in if available
+		Items:           items,
+	}
+
+	return CreateOrderWithItems(ctx, db, order)
+}
