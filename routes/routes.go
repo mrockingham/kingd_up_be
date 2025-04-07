@@ -4,6 +4,7 @@ import (
 	"kingdup/api"
 	"kingdup/handlers/auth"
 	order "kingdup/handlers/order" // Use an alias
+	"kingdup/handlers/payment"
 
 	myorder "kingdup/handlers/order"
 	"kingdup/middleware"
@@ -60,6 +61,11 @@ func RegisterRoutes(r *gin.Engine, db *gorm.DB) *gin.Engine {
 	userGroup.Use(middleware.JWTMiddleware())
 	{
 		userGroup.GET("/me", auth.MeHandler(db))
+	}
+
+	paymentGroup := router.Group("/payment")
+	{
+		paymentGroup.POST("/checkout", payment.CreateCheckoutHandler())
 	}
 
 	return router

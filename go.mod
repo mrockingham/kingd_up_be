@@ -11,6 +11,8 @@ require (
 	gorm.io/gorm v1.25.12
 )
 
+require github.com/stripe/stripe-go/v78 v78.12.0 // indirect
+
 require (
 	github.com/bytedance/sonic v1.12.6 // indirect
 	github.com/bytedance/sonic/loader v0.2.1 // indirect
