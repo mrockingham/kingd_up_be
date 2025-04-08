@@ -95,7 +95,7 @@ func CreateCheckoutHandler(sqlDB *sql.DB) gin.HandlerFunc {
 			PaymentMethodTypes: stripe.StringSlice([]string{"card"}),
 			LineItems:          lineItems,
 			Mode:               stripe.String(string(stripe.CheckoutSessionModePayment)),
-			SuccessURL:         stripe.String(req.ReturnURL),
+			SuccessURL:         stripe.String(fmt.Sprintf("https://www.kingdup.com/order/%d", orderID)),
 			CancelURL:          stripe.String(req.CancelURL),
 			ClientReferenceID:  stripe.String(fmt.Sprintf("%d", orderID)), // optional but useful
 		}
