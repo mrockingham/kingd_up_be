@@ -6,7 +6,6 @@ import (
 	order "kingdup/handlers/order" // Use an alias
 	"kingdup/handlers/payment"
 
-	myorder "kingdup/handlers/order"
 	"kingdup/middleware"
 	"time"
 
@@ -51,7 +50,7 @@ func RegisterRoutes(r *gin.Engine, db *gorm.DB) *gin.Engine {
 	orderGroup := router.Group("/orders")
 	{
 		orderGroup.POST("/", order.CreateOrderHandler(db))
-		orderGroup.GET("/me", middleware.JWTMiddleware(), myorder.GetUserOrdersHandler(db))
+		orderGroup.GET("/me", middleware.JWTMiddleware(), order.GetUserOrdersHandler(db))
 		orderGroup.GET("/:id", middleware.JWTMiddleware(), order.GetOrderByIDHandler(db))
 
 		// Add more as needed
@@ -71,6 +70,11 @@ func RegisterRoutes(r *gin.Engine, db *gorm.DB) *gin.Engine {
 	paymentGroup := router.Group("/payment")
 	{
 		paymentGroup.POST("/checkout", payment.CreateCheckoutHandler(sqlDB))
+	}
+
+	webhookGroup := router.Group("/webhook")
+	{
+		webhookGroup.POST("/stripe", payment.StripeWebhookHandler(sqlDB))
 	}
 
 	return router
